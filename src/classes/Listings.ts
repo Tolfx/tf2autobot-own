@@ -13,6 +13,7 @@ import { PaintedNames } from './Options';
 import ListingManager from '@tf2autobot/bptf-listings';
 import getAttachmentName from '../lib/tools/getAttachmentName';
 import filterAxiosError from '@tf2autobot/filter-axios-error';
+import CommandParser from './CommandParser';
 
 export default class Listings {
     private checkingAllListings = false;
@@ -654,7 +655,8 @@ export default class Listings {
                 .replace(/%name%/g, entry.id ?? entry.name)
                 .replace(/%max_stock%/g, isShowBoldOnMaxStock ? boldDetails(maxStock, style) : maxStock)
                 .replace(/%current_stock%/g, isShowBoldOnCurrentStock ? boldDetails(currentStock, style) : currentStock)
-                .replace(/%amount_trade%/g, isShowBoldOnAmount ? boldDetails(amountTrade, style) : amountTrade);
+                .replace(/%amount_trade%/g, isShowBoldOnAmount ? boldDetails(amountTrade, style) : amountTrade)
+                .replace(/%command%/g, createCommand(entry.name, intent));
         };
 
         const isCustomBuyNote = entry.note?.buy && intent === 0;
@@ -786,4 +788,19 @@ function boldDetails(str: string, style: number): string {
 
     // Style 4 - Italic Bold (sans)
     return str.replace('ref', '𝙧𝙚𝙛').replace('keys', '𝙠𝙚𝙮𝙨').replace('key', '𝙠𝙚𝙮');
+}
+
+function createCommand(name: string, intent: 0 | 1) {
+    // This is reversed, because it's from the customer's perspective
+    const command = intent === 0 ? 'sell' : 'buy';
+
+    const exceptions = ['.', ':', '-', '#', "'", '!', '?', '%', ',', ';', '(', ')'];
+
+    const exception = (char: string) => name.includes(char);
+
+    const isException = exceptions.some(exception);
+
+    return CommandParser.toBold(
+        command + '_' + CommandParser.replaceSpaces(isException ? CommandParser.replaceExceptions(name) : name)
+    );
 }

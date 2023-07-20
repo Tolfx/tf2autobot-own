@@ -16,7 +16,8 @@ export function getItemAndAmount(
     message: string,
     bot: Bot,
     prefix: string,
-    from?: 'buy' | 'sell' | 'buycart' | 'sellcart'
+    from?: 'buy' | 'sell' | 'buycart' | 'sellcart',
+    isQuickCommand = false
 ): { match: Entry; priceKey: string; amount: number } | null {
     let name = removeLinkProtocol(message);
     let amount = 1;
@@ -171,10 +172,12 @@ export function getItemAndAmount(
 
         // If we found an item that is different in 3-characters or less
         if (lowestDistance <= 3) {
-            bot.sendMessage(
-                steamID,
-                `❓ I could not find any item names in my pricelist with an exact match for "${name}". Using closest item name match "${matchName}" instead.`
-            );
+            if (!isQuickCommand) {
+                bot.sendMessage(
+                    steamID,
+                    `❓ I could not find any item names in my pricelist with an exact match for "${name}". Using closest item name match "${matchName}" instead.`
+                );
+            }
 
             return {
                 amount: amount,

@@ -38,3 +38,9 @@ it('can parse item id commands', () => {
     const params = CommandParser.parseParams(CommandParser.removeCommand(message));
     expect(params).toEqual({ id: 10151297782, intent: 'sell', sell: { keys: 1 } });
 });
+
+it('can parse quick command', () => {
+    const message = `sell_dadawd_dddd`;
+    const command = CommandParser.getCommand(message, '!');
+    expect(command).toEqual('sell');
+});
