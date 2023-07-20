@@ -411,6 +411,9 @@ export const optionsSchema: jsonschema.Schema = {
                 createListings: {
                     $ref: '#/definitions/only-enable'
                 },
+                startHalted: {
+                    $ref: '#/definitions/only-enable'
+                },
                 addFriends: {
                     $ref: '#/definitions/only-enable'
                 },
@@ -497,12 +500,9 @@ export const optionsSchema: jsonschema.Schema = {
                     properties: {
                         checkMptfBanned: {
                             type: 'boolean'
-                        },
-                        reptfAsPrimarySource: {
-                            type: 'boolean'
                         }
                     },
-                    required: ['checkMptfBanned', 'reptfAsPrimarySource'],
+                    required: ['checkMptfBanned'],
                     additionalProperties: false
                 },
                 pricecheckAfterTrade: {
@@ -1870,6 +1870,9 @@ export const optionsSchema: jsonschema.Schema = {
                         },
                         givingItemsWithIntentSell: {
                             type: 'string'
+                        },
+                        containsKeysOnBothSides: {
+                            type: 'string'
                         }
                     },
                     required: [
@@ -1889,7 +1892,8 @@ export const optionsSchema: jsonschema.Schema = {
                         'manual',
                         'failedToCounter',
                         'takingItemsWithIntentBuy',
-                        'givingItemsWithIntentSell'
+                        'givingItemsWithIntentSell',
+                        'containsKeysOnBothSides'
                     ],
                     additionalProperties: false
                 },
@@ -2262,7 +2266,7 @@ export const optionsSchema: jsonschema.Schema = {
                         'Sinister Staining': {
                             type: 'string'
                         },
-                        'Voices From Below': {
+                        'Voices from Below': {
                             type: 'string'
                         },
                         'Team Spirit Footprints': {
@@ -2302,7 +2306,7 @@ export const optionsSchema: jsonschema.Schema = {
                         'Chromatic Corruption',
                         'Spectral Spectrum',
                         'Sinister Staining',
-                        'Voices From Below',
+                        'Voices from Below',
                         'Team Spirit Footprints',
                         'Gangreen Footprints',
                         'Corpse Gray Footprints',
