@@ -906,7 +906,7 @@ export default class ManagerCommands {
                 steamID,
                 `❌ You're not running the bot with PM2!` +
                     `\n\nNavigate to your bot folder and run ` +
-                    `[git reset HEAD --hard && git pull && npm install && npm run build] ` +
+                    `[git reset HEAD --hard && git pull && npm install --no-audit && npm run build] ` +
                     `and then restart your bot.`
             );
         }
